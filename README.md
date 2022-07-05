@@ -195,3 +195,11 @@ Installing in the trust store does not require the CA key, so you can export the
 * run `mkcert -install`
 
 Remember that mkcert is meant for development purposes, not production, so it should not be used on end users' machines, and that you should *not* export or share `rootCA-key.pem`.
+
+### What I changed by forking
+
+You can customize the CA issuer name and certificate issuer name.
+
+```bash
+_MKCERT_CA_OU='CA issuer name' _MKCERT_CERT_OU='certificate issuer name ' mkcert [follow original args/opts]
+```

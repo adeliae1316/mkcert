@@ -32,18 +32,27 @@ import (
 	pkcs12 "software.sslmate.com/src/go-pkcs12"
 )
 
-var userAndHostname string
+var caOU string
+var certOU string
 
 func init() {
-	u, err := user.Current()
-	if err == nil {
-		userAndHostname = u.Username + "@"
+	caOU = os.Getenv("_MKCERT_CA_OU")
+	if caOU == "" {
+		h, err := os.Hostname()
+		if err == nil {
+			caOU = h
+		} else {
+			caOU = "CA_ORGANIZATION_UNIT"
+		}
 	}
-	if h, err := os.Hostname(); err == nil {
-		userAndHostname += h
-	}
-	if err == nil && u.Name != "" && u.Name != u.Username {
-		userAndHostname += " (" + u.Name + ")"
+	certOU = os.Getenv("_MKCERT_CERT_OU")
+	if certOU == "" {
+		u, err := user.Current()
+		if err == nil {
+			certOU = u.Username
+		} else {
+			certOU = "CERT_ORGANIZATION_UNIT"
+		}
 	}
 }
 
@@ -65,7 +74,7 @@ func (m *mkcert) makeCert(hosts []string) {
 		SerialNumber: randomSerialNumber(),
 		Subject: pkix.Name{
 			Organization:       []string{"mkcert development certificate"},
-			OrganizationalUnit: []string{userAndHostname},
+			OrganizationalUnit: []string{certOU},
 		},
 
 		NotBefore: time.Now(), NotAfter: expiration,
@@ -328,12 +337,12 @@ func (m *mkcert) newCA() {
 		SerialNumber: randomSerialNumber(),
 		Subject: pkix.Name{
 			Organization:       []string{"mkcert development CA"},
-			OrganizationalUnit: []string{userAndHostname},
+			OrganizationalUnit: []string{caOU},
 
 			// The CommonName is required by iOS to show the certificate in the
 			// "Certificate Trust Settings" menu.
 			// https://github.com/FiloSottile/mkcert/issues/47
-			CommonName: "mkcert " + userAndHostname,
+			CommonName: "mkcert " + caOU,
 		},
 		SubjectKeyId: skid[:],
 
