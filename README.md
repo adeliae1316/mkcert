@@ -201,5 +201,6 @@ Remember that mkcert is meant for development purposes, not production, so it sh
 You can customize the CA issuer name and certificate issuer name.
 
 ```bash
-_MKCERT_CA_OU='CA issuer name' _MKCERT_CERT_OU='certificate issuer name ' mkcert [follow original args/opts]
+_MKCERT_CA_OU='CA issuer name' mkcert -install
+_MKCERT_CERT_OU='certificate issuer name' mkcert [your domain names list]
 ```
