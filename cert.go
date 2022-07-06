@@ -34,6 +34,7 @@ import (
 
 var caOU string
 var certOU string
+var p12Password string
 
 func init() {
 	caOU = os.Getenv("_MKCERT_CA_OU")
@@ -53,6 +54,10 @@ func init() {
 		} else {
 			certOU = "CERT_ORGANIZATION_UNIT"
 		}
+	}
+	p12Password = os.("_MKCERT_P12_PASSWORD")
+	if p12Password == "" {
+		p12Password = "changeit"
 	}
 }
 
@@ -132,7 +137,7 @@ func (m *mkcert) makeCert(hosts []string) {
 		}
 	} else {
 		domainCert, _ := x509.ParseCertificate(cert)
-		pfxData, err := pkcs12.Encode(rand.Reader, priv, domainCert, []*x509.Certificate{m.caCert}, "changeit")
+		pfxData, err := pkcs12.Encode(rand.Reader, priv, domainCert, []*x509.Certificate{m.caCert}, p12Password)
 		fatalIfErr(err, "failed to generate PKCS#12")
 		err = ioutil.WriteFile(p12File, pfxData, 0644)
 		fatalIfErr(err, "failed to save PKCS#12")
@@ -148,7 +153,9 @@ func (m *mkcert) makeCert(hosts []string) {
 		}
 	} else {
 		log.Printf("\nThe PKCS#12 bundle is at \"%s\" ✅\n", p12File)
-		log.Printf("\nThe legacy PKCS#12 encryption password is the often hardcoded default \"changeit\" ℹ️\n\n")
+		if p12Password == "changeit" {
+			log.Printf("\nThe legacy PKCS#12 encryption password is the often hardcoded default \"changeit\" ℹ️\n\n")
+		}
 	}
 
 	log.Printf("It will expire on %s 🗓\n\n", expiration.Format("2 January 2006"))
