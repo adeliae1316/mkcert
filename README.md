@@ -129,22 +129,22 @@ To only install the local root CA into a subset of them, you can set the `TRUST_
 ### Advanced options
 
 ```
-	-cert-file FILE, -key-file FILE, -p12-file FILE
-	    Customize the output paths.
+    -cert-file FILE, -key-file FILE, -p12-file FILE
+        Customize the output paths.
 
-	-client
-	    Generate a certificate for client authentication.
+    -client
+        Generate a certificate for client authentication.
 
-	-ecdsa
-	    Generate a certificate with an ECDSA key.
+    -ecdsa
+        Generate a certificate with an ECDSA key.
 
-	-pkcs12
-	    Generate a ".p12" PKCS #12 file, also know as a ".pfx" file,
-	    containing certificate and key for legacy applications.
+    -pkcs12
+        Generate a ".p12" PKCS #12 file, also know as a ".pfx" file,
+        containing certificate and key for legacy applications.
 
-	-csr CSR
-	    Generate a certificate based on the supplied CSR. Conflicts with
-	    all other flags and arguments except -install and -cert-file.
+    -csr CSR
+        Generate a certificate based on the supplied CSR. Conflicts with
+        all other flags and arguments except -install and -cert-file.
 ```
 
 > **Note:** You _must_ place these options before the domain names list.
@@ -204,15 +204,17 @@ You can customize the CA issuer name and certificate issuer name.
 
 e.g.
 
-	```bash
-	_MKCERT_CA_OU='CA issuer name' mkcert -install
-	_MKCERT_CERT_OU='certificate issuer name' mkcert example.com *.example.com
-	```
+```bash
+# Create a new local CA.
+_MKCERT_CA_OU='new local CA' mkcert -install
+# Create a new certificate.
+_MKCERT_CERT_OU='*.example.com' mkcert example.com *.example.com
+```
 
 You can customize the p12 password for client certification.
 
 e.g.
 
-	```bash
-	_MKCERT_P12_PASSWORD='password' _MKCERT_CERT_OU='certificate issuer name' mkcert -pkcs12 -client example.com *.example.com
-	```
+```bash
+_MKCERT_P12_PASSWORD='password' _MKCERT_CERT_OU='*.example.com' mkcert -pkcs12 -client example.com *.example.com
+```
