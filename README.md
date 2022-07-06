@@ -206,3 +206,7 @@ _MKCERT_CERT_OU='certificate issuer name' mkcert [your domain names list]
 ```
 
 You can customize the p12 password for client certification.
+
+```bash
+_MKCERT_P12_PASSWORD='password' _MKCERT_CERT_OU='certificate issuer name' mkcert -pkcs12 -client [your certificate name]
+```
