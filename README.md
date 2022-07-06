@@ -196,17 +196,23 @@ Installing in the trust store does not require the CA key, so you can export the
 
 Remember that mkcert is meant for development purposes, not production, so it should not be used on end users' machines, and that you should *not* export or share `rootCA-key.pem`.
 
+---
+
 ### What I changed by forking
 
 You can customize the CA issuer name and certificate issuer name.
 
-```bash
-_MKCERT_CA_OU='CA issuer name' mkcert -install
-_MKCERT_CERT_OU='certificate issuer name' mkcert [your domain names list]
-```
+e.g.
+
+	```bash
+	_MKCERT_CA_OU='CA issuer name' mkcert -install
+	_MKCERT_CERT_OU='certificate issuer name' mkcert example.com *.example.com
+	```
 
 You can customize the p12 password for client certification.
 
-```bash
-_MKCERT_P12_PASSWORD='password' _MKCERT_CERT_OU='certificate issuer name' mkcert -pkcs12 -client [your certificate name]
-```
+e.g.
+
+	```bash
+	_MKCERT_P12_PASSWORD='password' _MKCERT_CERT_OU='certificate issuer name' mkcert -pkcs12 -client example.com *.example.com
+	```
