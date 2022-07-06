@@ -204,3 +204,5 @@ You can customize the CA issuer name and certificate issuer name.
 _MKCERT_CA_OU='CA issuer name' mkcert -install
 _MKCERT_CERT_OU='certificate issuer name' mkcert [your domain names list]
 ```
+
+You can customize the p12 password for client certification.

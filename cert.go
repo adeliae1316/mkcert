@@ -55,7 +55,7 @@ func init() {
 			certOU = "CERT_ORGANIZATION_UNIT"
 		}
 	}
-	p12Password = os.("_MKCERT_P12_PASSWORD")
+	p12Password = os.Getenv("_MKCERT_P12_PASSWORD")
 	if p12Password == "" {
 		p12Password = "changeit"
 	}
